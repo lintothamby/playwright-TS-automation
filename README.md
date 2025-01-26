@@ -57,6 +57,8 @@ ________________________________________
 ________________________________________
 6. Create Project Folder Structure
 Here’s the recommended folder structure:
+
+
 playwright-ts-project/
 │
 ├── src/

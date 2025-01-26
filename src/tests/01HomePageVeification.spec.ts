@@ -1,3 +1,37 @@
+/**
+ * Automation Script Developed By: Linto Thamby
+ * Date: 26-01-2025
+ * Automation Test Cases:
+ * 
+ * 1) Verify homepage:
+ *    - Title: 'Restful-booker-platform demo'
+ *    - Page heading H1: 'Welcome to Restful Booker Platform'
+ *    - Page heading H4: 'Your one stop shop to practise Software Testing!'
+ *    - Images in div class 'jumbotron'
+ *    - Button with class 'btn btn-primary'
+ * 
+ * 2) Verify Hotel Information:
+ *    - Verify hotel image in div class 'container-fluid'
+ *    - Verify 'Rooms' text in div class 'Rooms'
+ *    - Check headings in div class 'row hotel-room-info' and verify room types: 'Single', 'Double', 'Family'
+ *      - Store room types in variables and validate visibility
+ *      - Print room types in '/' separated format
+ *      - Print "Rooms available"
+ * 
+ * 3) Verify Contact Us Section:
+ *    - Check visibility of form fields in div class 'col-sm-5'
+ *    - Verify button with ID 'submitContact'
+ *    - Verify visibility of Contact Address in div class 'col-sm-5' with details in <p> tags
+ * 
+ * 4) Verify Map:
+ *    - Check visibility of map in div class 'map'
+ * 
+ * 5) Verify Footer:
+ *    - Check footer visibility with ID 'footer'
+ *    - Verify footer text in <p> tags
+ */
+
+
 import { test, expect } from "@playwright/test";
 import { XpathLocators } from "../locators/XpathLocators";
 let firstButtonText: string | null = null;

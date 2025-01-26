@@ -1,1 +1,113 @@
 # playwright-TS-automation
+Step-by-Step Installation and Configuration for Playwright with TypeScript
+________________________________________
+1. Install Node.js
+Ensure Node.js is installed on your system. Check the version:
+node -v
+npm -v
+If not installed, download and install it from Node.js official site.
+________________________________________
+2. Create and Initialize a New Project
+1.	Open your terminal and create a project directory: 
+2.	mkdir playwright-ts-project
+3.	cd playwright-ts-project
+4.	Initialize the project: 
+5.	npm init -y
+________________________________________
+3. Install Required Dependencies
+Install Playwright, TypeScript, and other necessary packages:
+npm install --save-dev @playwright/test typescript ts-node @types/node csv-parser allure-playwright
+________________________________________
+4. Configure TypeScript
+1.	Generate a TypeScript configuration file: 
+2.	npx tsc --init
+3.	Modify the tsconfig.json file as needed: 
+4.	{
+5.	  "compilerOptions": {
+6.	    "target": "ESNext",
+7.	    "module": "CommonJS",
+8.	    "strict": true,
+9.	    "esModuleInterop": true,
+10.	    "skipLibCheck": true,
+11.	    "outDir": "./dist",
+12.	    "rootDir": "./src"
+13.	  },
+14.	  "include": ["src/**/*"]
+15.	}
+________________________________________
+5. Set Up Playwright
+1.	Install Playwright browsers: 
+2.	npx playwright install
+3.	Generate Playwright configuration: 
+4.	npx playwright codegen
+5.	Create a playwright.config.ts file for additional settings: 
+6.	import { defineConfig } from '@playwright/test';
+7.	
+8.	export default defineConfig({
+9.	  testDir: './tests',
+10.	  timeout: 30000,
+11.	  retries: 2,
+12.	  reporter: [['line'], ['allure-playwright']],
+13.	  use: {
+14.	    headless: true,
+15.	    screenshot: 'on',
+16.	    video: 'on',
+17.	  },
+18.	});
+________________________________________
+6. Create Project Folder Structure
+Here’s the recommended folder structure:
+playwright-ts-project/
+│
+├── src/
+│   ├── locators/                # Store xpaths and locators
+│   │   ├── loginPageLocators.ts
+│   │   └── homePageLocators.ts
+│   ├── pages/                   # Reusable page object files
+│   │   ├── BasePage.ts
+│   │   ├── LoginPage.ts
+│   │   └── HomePage.ts
+│   ├── utils/                   # Helper utilities
+│   │   └── csvReader.ts
+│   └── tests/                   # Test files
+│       └── loginTest.spec.ts
+│
+├── tests/                       # Main test folder for Playwright
+├── dist/                        # Compiled TypeScript files
+├── allure-results/              # Allure report output
+├── package.json                 # Project configuration
+├── tsconfig.json                # TypeScript configuration
+├── playwright.config.ts         # Playwright configuration
+└── .gitignore                   # Git ignored files
+
+
+Explanation of Key Folders
+src/
+
+data/: Place CSV or other files for data-driven tests. Example: users.csv.
+locators/: Central place for XPath/CSS strings or other locators.
+pages/: Page Object classes, such as LoginPage.ts, HomePage.ts, plus a BasePage.ts for shared code.
+utils/: Utility/helper classes (e.g., a csvReader.ts that parses your CSVs).
+tests/: Your main TypeScript test specs. Each .spec.ts can import from pages, utils, and locators.
+tests/ (top-level)
+
+This is optional. If your primary TypeScript tests all live in src/tests/, you may not need this folder.
+You might keep additional or legacy test files here. Or you could remove it to avoid confusion.
+allure-results/, allure-report/
+
+Standard Allure directories: raw result artifacts go in allure-results/ and the generated HTML goes in allure-report/.
+dist/
+
+The default output of the TypeScript compiler, if your build process compiles src/ into dist/.
+playwright.config.ts
+
+Main Playwright config (test directory references, timeouts, Allure reporter config, etc.).
+E.g., testDir: "src/tests" if your main specs live in src/tests/.
+
+
+1) Install csv-parse
+Make sure you actually have the library installed. In your project root (same level as package.json):
+-------------------------------------------
+npm install --save-dev csv-parse.
+---------------------------------------------
+

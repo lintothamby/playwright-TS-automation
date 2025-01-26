@@ -1,3 +1,8 @@
+/**
+ * Automation Script Developed By: Linto Thamby
+ * Date: 26-01-2025
+ * Automation Test Cases: Verify the  Navigation to the Rooms section and book a room,Booking Calendar verification*/
+
 import { test, expect } from "@playwright/test";
 import { CalendarLocators } from "../locators/CalendarLocators";
 

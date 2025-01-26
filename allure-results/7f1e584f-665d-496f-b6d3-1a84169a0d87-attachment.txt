@@ -1,0 +1,6 @@
+Number of room types found: 11
+Unique Room Types: Twin
+All rooms are of the same type: Twin
+Rooms with 'Book this room' button: Twin / Twin / Twin / Twin / Twin / Twin / Twin / Twin / Twin / Twin / Twin
+Rooms without 'Book this room' button: 
+Text of the first 'Book this room' button: Book this room

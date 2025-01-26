@@ -1,0 +1,6 @@
+Room Headings Locator: //div[@class='container-fluid']//div[contains(@class, 'row hotel-room-info')]//h3
+Number of room types found: 11
+Unique Room Types: Twin
+All rooms are of the same type: Twin
+Rooms with 'Book this room' button: Twin / Twin / Twin / Twin / Twin / Twin / Twin / Twin / Twin / Twin / Twin
+Rooms without 'Book this room' button: 

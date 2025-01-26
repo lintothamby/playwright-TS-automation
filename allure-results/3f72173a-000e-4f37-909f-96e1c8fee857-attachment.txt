@@ -1,0 +1,1 @@
+Verified: Calendar is displayed after clicking the FIRST 'Book this room' button.

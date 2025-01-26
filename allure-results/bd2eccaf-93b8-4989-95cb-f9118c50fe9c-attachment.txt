@@ -1,0 +1,2 @@
+Number of room rows found: 4
+Row 1 visibility: true

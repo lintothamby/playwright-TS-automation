@@ -1,0 +1,6 @@
+Number of room types found: 16
+Unique Room Types: single / Twin / Suite / Single
+Available Room Types: single / Twin / Suite / Single
+Rooms with 'Book this room' button: single / Twin / Suite / Twin / Single / Single / Single / Twin / Twin / Twin / Suite / Suite / Twin / Single / Single / Twin
+Rooms without 'Book this room' button: 
+Text of the first 'Book this room' button: Book this room

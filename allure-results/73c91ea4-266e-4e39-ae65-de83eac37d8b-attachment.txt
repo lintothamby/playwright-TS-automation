@@ -1,0 +1,817 @@
+Verified: Default calendar displays January 2025
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="google" content="notranslate"><meta http-equiv="Content-Language" content="en"><title>Restful-booker-platform demo</title><script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script><link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous"><script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script><script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"><script defer="defer" src="js/main.js"></script><style>@charset "UTF-8";
+.rbc-btn {
+  color: inherit;
+  font: inherit;
+  margin: 0;
+}
+
+button.rbc-btn {
+  overflow: visible;
+  text-transform: none;
+  -webkit-appearance: button;
+  cursor: pointer;
+}
+
+button[disabled].rbc-btn {
+  cursor: not-allowed;
+}
+
+button.rbc-input::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+
+.rbc-calendar {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: stretch;
+      -ms-flex-align: stretch;
+          align-items: stretch;
+}
+
+.rbc-calendar *,
+.rbc-calendar *:before,
+.rbc-calendar *:after {
+  -webkit-box-sizing: inherit;
+          box-sizing: inherit;
+}
+
+.rbc-abs-full, .rbc-row-bg {
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.rbc-ellipsis, .rbc-show-more, .rbc-row-segment .rbc-event-content, .rbc-event-label {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rbc-rtl {
+  direction: rtl;
+}
+
+.rbc-off-range {
+  color: #999999;
+}
+
+.rbc-off-range-bg {
+  background: #e6e6e6;
+}
+
+.rbc-header {
+  overflow: hidden;
+  -webkit-box-flex: 1;
+      -ms-flex: 1 0 0%;
+          flex: 1 0 0%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 0 3px;
+  text-align: center;
+  vertical-align: middle;
+  font-weight: bold;
+  font-size: 90%;
+  min-height: 0;
+  border-bottom: 1px solid #ddd;
+}
+.rbc-header + .rbc-header {
+  border-left: 1px solid #ddd;
+}
+.rbc-rtl .rbc-header + .rbc-header {
+  border-left-width: 0;
+  border-right: 1px solid #ddd;
+}
+.rbc-header > a, .rbc-header > a:active, .rbc-header > a:visited {
+  color: inherit;
+  text-decoration: none;
+}
+
+.rbc-button-link {
+  color: inherit;
+  background: none;
+  margin: 0;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  -webkit-user-select: text;
+     -moz-user-select: text;
+      -ms-user-select: text;
+          user-select: text;
+}
+
+.rbc-row-content {
+  position: relative;
+  -moz-user-select: none;
+   -ms-user-select: none;
+       user-select: none;
+  -webkit-user-select: none;
+  z-index: 4;
+}
+
+.rbc-row-content-scrollable {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  height: 100%;
+}
+.rbc-row-content-scrollable .rbc-row-content-scroll-container {
+  height: 100%;
+  overflow-y: scroll;
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.rbc-row-content-scrollable .rbc-row-content-scroll-container::-webkit-scrollbar {
+  display: none;
+}
+
+.rbc-today {
+  background-color: #eaf6ff;
+}
+
+.rbc-toolbar {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+.rbc-toolbar .rbc-toolbar-label {
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  padding: 0 10px;
+  text-align: center;
+}
+.rbc-toolbar button {
+  color: #373a3c;
+  display: inline-block;
+  margin: 0;
+  text-align: center;
+  vertical-align: middle;
+  background: none;
+  background-image: none;
+  border: 1px solid #ccc;
+  padding: 0.375rem 1rem;
+  border-radius: 4px;
+  line-height: normal;
+  white-space: nowrap;
+}
+.rbc-toolbar button:active, .rbc-toolbar button.rbc-active {
+  background-image: none;
+  -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+          box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  background-color: #e6e6e6;
+  border-color: #adadad;
+}
+.rbc-toolbar button:active:hover, .rbc-toolbar button:active:focus, .rbc-toolbar button.rbc-active:hover, .rbc-toolbar button.rbc-active:focus {
+  color: #373a3c;
+  background-color: #d4d4d4;
+  border-color: #8c8c8c;
+}
+.rbc-toolbar button:focus {
+  color: #373a3c;
+  background-color: #e6e6e6;
+  border-color: #adadad;
+}
+.rbc-toolbar button:hover {
+  color: #373a3c;
+  background-color: #e6e6e6;
+  border-color: #adadad;
+}
+
+.rbc-btn-group {
+  display: inline-block;
+  white-space: nowrap;
+}
+.rbc-btn-group > button:first-child:not(:last-child) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.rbc-btn-group > button:last-child:not(:first-child) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.rbc-rtl .rbc-btn-group > button:first-child:not(:last-child) {
+  border-radius: 4px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.rbc-rtl .rbc-btn-group > button:last-child:not(:first-child) {
+  border-radius: 4px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.rbc-btn-group > button:not(:first-child):not(:last-child) {
+  border-radius: 0;
+}
+.rbc-btn-group button + button {
+  margin-left: -1px;
+}
+.rbc-rtl .rbc-btn-group button + button {
+  margin-left: 0;
+  margin-right: -1px;
+}
+.rbc-btn-group + .rbc-btn-group, .rbc-btn-group + button {
+  margin-left: 10px;
+}
+
+@media (max-width: 767px) {
+  .rbc-toolbar {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+}
+.rbc-event, .rbc-day-slot .rbc-background-event {
+  border: none;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  margin: 0;
+  padding: 2px 5px;
+  background-color: #3174ad;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+}
+.rbc-slot-selecting .rbc-event, .rbc-slot-selecting .rbc-day-slot .rbc-background-event, .rbc-day-slot .rbc-slot-selecting .rbc-background-event {
+  cursor: inherit;
+  pointer-events: none;
+}
+.rbc-event.rbc-selected, .rbc-day-slot .rbc-selected.rbc-background-event {
+  background-color: #265985;
+}
+.rbc-event:focus, .rbc-day-slot .rbc-background-event:focus {
+  outline: 5px auto #3b99fc;
+}
+
+.rbc-event-label {
+  font-size: 80%;
+}
+
+.rbc-event-overlaps {
+  -webkit-box-shadow: -1px 1px 5px 0px rgba(51, 51, 51, 0.5);
+          box-shadow: -1px 1px 5px 0px rgba(51, 51, 51, 0.5);
+}
+
+.rbc-event-continues-prior {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.rbc-event-continues-after {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.rbc-event-continues-earlier {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.rbc-event-continues-later {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.rbc-row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+}
+
+.rbc-row-segment {
+  padding: 0 1px 1px 1px;
+}
+.rbc-selected-cell {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.rbc-show-more {
+  background-color: rgba(255, 255, 255, 0.3);
+  z-index: 4;
+  font-weight: bold;
+  font-size: 85%;
+  height: auto;
+  line-height: normal;
+  color: #3174ad;
+}
+.rbc-show-more:hover, .rbc-show-more:focus {
+  color: #265985;
+}
+
+.rbc-month-view {
+  position: relative;
+  border: 1px solid #ddd;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-flex: 1;
+      -ms-flex: 1 0 0px;
+          flex: 1 0 0;
+  width: 100%;
+  -moz-user-select: none;
+   -ms-user-select: none;
+       user-select: none;
+  -webkit-user-select: none;
+  height: 100%;
+}
+
+.rbc-month-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+}
+
+.rbc-month-row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  position: relative;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-flex: 1;
+      -ms-flex: 1 0 0px;
+          flex: 1 0 0;
+  -ms-flex-preferred-size: 0px;
+      flex-basis: 0px;
+  overflow: hidden;
+  height: 100%;
+}
+.rbc-month-row + .rbc-month-row {
+  border-top: 1px solid #ddd;
+}
+
+.rbc-date-cell {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 0px;
+          flex: 1 1 0;
+  min-width: 0;
+  padding-right: 5px;
+  text-align: right;
+}
+.rbc-date-cell.rbc-now {
+  font-weight: bold;
+}
+.rbc-date-cell > a, .rbc-date-cell > a:active, .rbc-date-cell > a:visited {
+  color: inherit;
+  text-decoration: none;
+}
+
+.rbc-row-bg {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-flex: 1;
+      -ms-flex: 1 0 0px;
+          flex: 1 0 0;
+  overflow: hidden;
+}
+
+.rbc-day-bg {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 0 0%;
+          flex: 1 0 0%;
+}
+.rbc-day-bg + .rbc-day-bg {
+  border-left: 1px solid #ddd;
+}
+.rbc-rtl .rbc-day-bg + .rbc-day-bg {
+  border-left-width: 0;
+  border-right: 1px solid #ddd;
+}
+
+.rbc-overlay {
+  position: absolute;
+  z-index: 5;
+  border: 1px solid #e5e5e5;
+  background-color: #fff;
+  -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
+  padding: 10px;
+}
+.rbc-overlay > * + * {
+  margin-top: 1px;
+}
+
+.rbc-overlay-header {
+  border-bottom: 1px solid #e5e5e5;
+  margin: -10px -10px 5px -10px;
+  padding: 2px 10px;
+}
+
+.rbc-agenda-view {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-flex: 1;
+      -ms-flex: 1 0 0px;
+          flex: 1 0 0;
+  overflow: auto;
+}
+.rbc-agenda-view table.rbc-agenda-table {
+  width: 100%;
+  border: 1px solid #ddd;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+.rbc-agenda-view table.rbc-agenda-table tbody > tr > td {
+  padding: 5px 10px;
+  vertical-align: top;
+}
+.rbc-agenda-view table.rbc-agenda-table .rbc-agenda-time-cell {
+  padding-left: 15px;
+  padding-right: 15px;
+  text-transform: lowercase;
+}
+.rbc-agenda-view table.rbc-agenda-table tbody > tr > td + td {
+  border-left: 1px solid #ddd;
+}
+.rbc-rtl .rbc-agenda-view table.rbc-agenda-table tbody > tr > td + td {
+  border-left-width: 0;
+  border-right: 1px solid #ddd;
+}
+.rbc-agenda-view table.rbc-agenda-table tbody > tr + tr {
+  border-top: 1px solid #ddd;
+}
+.rbc-agenda-view table.rbc-agenda-table thead > tr > th {
+  padding: 3px 5px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+.rbc-rtl .rbc-agenda-view table.rbc-agenda-table thead > tr > th {
+  text-align: right;
+}
+
+.rbc-agenda-time-cell {
+  text-transform: lowercase;
+}
+.rbc-agenda-time-cell .rbc-continues-after:after {
+  content: " »";
+}
+.rbc-agenda-time-cell .rbc-continues-prior:before {
+  content: "« ";
+}
+
+.rbc-agenda-date-cell,
+.rbc-agenda-time-cell {
+  white-space: nowrap;
+}
+
+.rbc-agenda-event-cell {
+  width: 100%;
+}
+
+.rbc-time-column {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  min-height: 100%;
+}
+.rbc-time-column .rbc-timeslot-group {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.rbc-timeslot-group {
+  border-bottom: 1px solid #ddd;
+  min-height: 40px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column nowrap;
+          flex-flow: column nowrap;
+}
+
+.rbc-time-gutter,
+.rbc-header-gutter {
+  -webkit-box-flex: 0;
+      -ms-flex: none;
+          flex: none;
+}
+
+.rbc-label {
+  padding: 0 5px;
+}
+
+.rbc-day-slot {
+  position: relative;
+}
+.rbc-day-slot .rbc-events-container {
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  right: 0;
+  margin-right: 10px;
+  top: 0;
+}
+.rbc-day-slot .rbc-events-container.rbc-rtl {
+  left: 10px;
+  right: 0;
+}
+.rbc-day-slot .rbc-event, .rbc-day-slot .rbc-background-event {
+  border: 1px solid #265985;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  max-height: 100%;
+  min-height: 20px;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column wrap;
+          flex-flow: column wrap;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  overflow: hidden;
+  position: absolute;
+}
+.rbc-day-slot .rbc-background-event {
+  opacity: 0.75;
+}
+.rbc-day-slot .rbc-event-label {
+  -webkit-box-flex: 0;
+      -ms-flex: none;
+          flex: none;
+  padding-right: 5px;
+  width: auto;
+}
+.rbc-day-slot .rbc-event-content {
+  width: 100%;
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 0px;
+          flex: 1 1 0;
+  word-wrap: break-word;
+  line-height: 1;
+  height: 100%;
+  min-height: 1em;
+}
+.rbc-day-slot .rbc-time-slot {
+  border-top: 1px solid #f7f7f7;
+}
+
+.rbc-time-view-resources .rbc-time-gutter,
+.rbc-time-view-resources .rbc-time-header-gutter {
+  position: sticky;
+  left: 0;
+  background-color: white;
+  border-right: 1px solid #ddd;
+  z-index: 10;
+  margin-right: -1px;
+}
+.rbc-time-view-resources .rbc-time-header {
+  overflow: hidden;
+}
+.rbc-time-view-resources .rbc-time-header-content {
+  min-width: auto;
+  -webkit-box-flex: 1;
+      -ms-flex: 1 0 0px;
+          flex: 1 0 0;
+  -ms-flex-preferred-size: 0px;
+      flex-basis: 0px;
+}
+.rbc-time-view-resources .rbc-time-header-cell-single-day {
+  display: none;
+}
+.rbc-time-view-resources .rbc-day-slot {
+  min-width: 140px;
+}
+.rbc-time-view-resources .rbc-header,
+.rbc-time-view-resources .rbc-day-bg {
+  width: 140px;
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 0px;
+          flex: 1 1 0;
+  -ms-flex-preferred-size: 0 px;
+      flex-basis: 0 px;
+}
+
+.rbc-time-header-content + .rbc-time-header-content {
+  margin-left: -1px;
+}
+
+.rbc-time-slot {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 0 0px;
+          flex: 1 0 0;
+}
+.rbc-time-slot.rbc-now {
+  font-weight: bold;
+}
+
+.rbc-day-header {
+  text-align: center;
+}
+
+.rbc-slot-selection {
+  z-index: 10;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  font-size: 75%;
+  width: 100%;
+  padding: 3px;
+}
+
+.rbc-slot-selecting {
+  cursor: move;
+}
+
+.rbc-time-view {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  width: 100%;
+  border: 1px solid #ddd;
+  min-height: 0;
+}
+.rbc-time-view .rbc-time-gutter {
+  white-space: nowrap;
+  text-align: right;
+}
+.rbc-time-view .rbc-allday-cell {
+  -webkit-box-sizing: content-box;
+          box-sizing: content-box;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.rbc-time-view .rbc-allday-cell + .rbc-allday-cell {
+  border-left: 1px solid #ddd;
+}
+.rbc-time-view .rbc-allday-events {
+  position: relative;
+  z-index: 4;
+}
+.rbc-time-view .rbc-row {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  min-height: 20px;
+}
+
+.rbc-time-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 auto;
+          flex: 0 0 auto;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+}
+.rbc-time-header.rbc-overflowing {
+  border-right: 1px solid #ddd;
+}
+.rbc-rtl .rbc-time-header.rbc-overflowing {
+  border-right-width: 0;
+  border-left: 1px solid #ddd;
+}
+.rbc-time-header > .rbc-row:first-child {
+  border-bottom: 1px solid #ddd;
+}
+.rbc-time-header > .rbc-row.rbc-row-resource {
+  border-bottom: 1px solid #ddd;
+}
+
+.rbc-time-header-cell-single-day {
+  display: none;
+}
+
+.rbc-time-header-content {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  min-width: 0;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  border-left: 1px solid #ddd;
+}
+.rbc-rtl .rbc-time-header-content {
+  border-left-width: 0;
+  border-right: 1px solid #ddd;
+}
+.rbc-time-header-content > .rbc-row.rbc-row-resource {
+  border-bottom: 1px solid #ddd;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+}
+
+.rbc-time-content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+      -ms-flex: 1 0 0%;
+          flex: 1 0 0%;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  width: 100%;
+  border-top: 2px solid #ddd;
+  overflow-y: auto;
+  position: relative;
+}
+.rbc-time-content > .rbc-time-gutter {
+  -webkit-box-flex: 0;
+      -ms-flex: none;
+          flex: none;
+}
+.rbc-time-content > * + * > * {
+  border-left: 1px solid #ddd;
+}
+.rbc-rtl .rbc-time-content > * + * > * {
+  border-left-width: 0;
+  border-right: 1px solid #ddd;
+}
+.rbc-time-content > .rbc-day-slot {
+  width: 100%;
+  -moz-user-select: none;
+   -ms-user-select: none;
+       user-select: none;
+  -webkit-user-select: none;
+}
+
+.rbc-current-time-indicator {
+  position: absolute;
+  z-index: 3;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: #74ad31;
+  pointer-events: none;
+}</style><style>html{position:relative;min-height:100%}body{margin-bottom:60px}.footer{position:absolute;bottom:0;width:100%;height:66px;background-color:#f5f5f5;font-size:0.8rem}.text-muted{margin:20px 0}.container{margin-top:20px}.rowHeader{font-weight:bold}.detail:hover{background-color:#ddd}.detail p,.detail span{display:table-cell;display:table-cell;line-height:40px}.room-form{padding-bottom:25px;margin-top:10px}.room-details{border-radius:5px;padding:20px;background:#f5f5f5;margin-bottom:20px}.room-details img{height:200px}.room-details p{font-weight:bold}.room-details span{font-weight:normal}.editLabel{margin-top:20px}.hotel-logoUrl{padding-top:50px;width:60%}.hotel-description{margin-top:5.0rem;text-align:justify}.welcome h2,.welcome h4{text-align:center}.welcome p{text-align:justify}.welcome .content{height:340px}svg{padding:1px}.contact{padding:30px 0px 30px 0px;background-color:#f7faff;border-top:1px solid #dddddd}.room-header{border-bottom:1px solid #dddddd;margin-bottom:30px}.room-booking-form{margin-top:42px}.hotel-room-info{padding:0px 0px 30px 0px}.wheelchair{float:right;font-size:2.0rem}.hotel-img{width:100%}.map{margin-left:-15px}.invalid-feedback{display:block}.confirmation-modal{border:1px solid black;padding:20px;background-color:#ffffff;width:50%;margin:100px auto auto auto}.branding-form{padding-bottom:15px}.success{margin-left:"10px";color:green;float:right;font-size:1.2rem}.Modal{border:1px solid black;padding:20px;background-color:#ffffff;width:180px;margin:20px auto auto auto}.notification{color:white;border-radius:100%;background-color:darkred;padding:4px;font-weight:bold;font-family:Arial;position:absolute;margin:-5px 0px 0px -12px;font-size:0.8rem;min-width:20px;text-align:center}.read-false{font-weight:bold}.message-modal{border:1px solid black;padding:20px;background-color:#ffffff;width:70%;margin:100px auto auto auto}.message-modal span{font-weight:bold}
+</style></head><body><div id="root"><div><div class="collapse show" id="collapseBanner"><div class="jumbotron"><div class="row"><div class="col-12"><h1>Welcome to Restful Booker Platform</h1><h4>Your one stop shop to practise Software Testing!</h4></div></div><div class="row"><div class="col-sm-3 content"><br><img src="data:image/png;base64,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" alt="Magnifying glass" style="height: 60px; margin-left: auto; margin-right: auto; display: block;"><br><p><span style="font-weight: bold;">Exploration: </span> Testing is more than just finding bugs. With Restful-booker-platform you can use it to hone your exploratory testing skills by diving into the application to find out more about how it works. There are many features for you to explore, with more being continuously added. So there will always be something new to explore!</p></div><div class="col-sm-3 content"><br><img src="https://automationintesting.online/js/../images/e6ea54857498da9c4ef251d699f54b35-brackets.png" alt="Brackets" style="height: 60px; margin-left: auto; margin-right: auto; display: block;"><br><p><span style="font-weight: bold;">Automation:</span> Restful-booker-platform is an open source application and it offers a range of different technologies that you can automate against, either online or via a locally deployed instance.</p><p>Check out the <a href="https://github.com/mwinteringham/restful-booker-platform" alt="Restful booker platform source code">restful-booker-platform source code</a> to learn more about the various APIs and JavaScript features to practise your Automation in Testing skills.</p></div><div class="col-sm-3 content"><br><img src="https://automationintesting.online/js/../images/2b23246f8d8e54e5aebf93dbf3191286-block.png" alt="Building blocks" style="height: 60px; margin-left: auto; margin-right: auto; display: block;"><br><p><span style="font-weight: bold;">Infrastructure:</span> Restful-booker-platform is a continuously deployed application using CircleCi and Docker. All the deployment assets can be found in the <a href="https://github.com/mwinteringham/restful-booker-platform" alt="Restful booker platform source code">restful-booker-platform source</a> repository for you to create your own pipeline. You can also learn more about the <a href="https://circleci.com/gh/mwinteringham/workflows/restful-booker-platform" alt="Circle CI build pipeline">build process in this public build pipeline</a>.</p></div><div class="col-sm-3 content"><br><img src="https://automationintesting.online/js/../images/61a697b408e2230b847e13de2456502c-goarrow.png" alt="Go arrow" style="height: 60px; margin-left: auto; margin-right: auto; display: block;"><br><p><span style="font-weight: bold;">Get Started:</span> How you use this application is up to you, but here are a few things to get you started:</p><ul><li>Explore the <a href="https://automationintesting.online" alt="Link to home page">home page</a></li><li>Access the <a href="https://automationintesting.online/#/admin" alt="Link to admin page">admin panel</a> with the credentials admin/password</li><li>You can <a href="https://github.com/mwinteringham/restful-booker-platform/projects/1" alt="Link to RBP project">read more about the features here</a></li><li>If you find a particularly bad bug, <a href="https://github.com/mwinteringham/restful-booker-platform/issues" alt="Bug tracker">feel free to raise it here</a></li></ul><p><span style="font-weight: bold;">Please note:</span> for security reasons the database resets every 10 minutes.</p></div></div><div class="row"><div class="col-5"></div><div class="col-2 text-center" data-toggle="collapse" data-target="#collapseBanner" aria-expanded="false" aria-controls="collapseBanner"><button type="button" class="btn btn-primary">Let me hack!</button></div><div class="col-5"></div></div></div></div></div><div><div class="container-fluid"><div class="row"><div class="col-sm-12 text-center"><img src="/images/rbp-logo.jpg" class="hotel-logoUrl" alt="Hotel logoUrl"></div></div><div class="row hotel-description"><div class="col-sm-1"></div><div class="col-sm-10"><p>Welcome to Shady Meadows, a delightful Bed &amp; Breakfast nestled in the hills on Newingtonfordburyshire. A place so beautiful you will never want to leave. All our rooms have comfortable beds and we provide breakfast from the locally sourced supermarket. It is a delightful place.</p></div><div class="col-sm-1"></div></div><div class="row room-header"><div class="col-sm-1"></div><div class="col-sm-10"><h2>Rooms</h2></div><div class="col-sm-1"></div></div><div><div><div class="row hotel-room-info"><div class="col-sm-1"></div><div class="col-sm-3"><img class="img-responsive hotel-img" src="/images/room2.jpg" alt="Preview image of room101"></div><div class="col-sm-7"><span class="fa fa-wheelchair wheelchair"></span><h3>single</h3><p>Aenean porttitor mauris sit amet lacinia molestie. In posuere accumsan aliquet. Maecenas sit amet nisl massa. Interdum et malesuada fames ac ante.</p><ul><li>TV</li><li>WiFi</li><li>Safe</li></ul></div><div class="col-sm-1"></div></div><div class="row hotel-room-info"><div class="col-sm-1"></div><div class="col-sm-6"><div class="rbc-calendar" style="height: 60vh;"><div class="rbc-toolbar"><span class="rbc-btn-group"><button type="button">Today</button><button type="button">Back</button><button type="button">Next</button></span><span class="rbc-toolbar-label">January 2025</span><span class="rbc-btn-group"></span></div><div class="rbc-month-view" role="table" aria-label="Month View"><div class="rbc-row rbc-month-header" role="row"><div class="rbc-header"><span role="columnheader" aria-sort="none">Sun</span></div><div class="rbc-header"><span role="columnheader" aria-sort="none">Mon</span></div><div class="rbc-header"><span role="columnheader" aria-sort="none">Tue</span></div><div class="rbc-header"><span role="columnheader" aria-sort="none">Wed</span></div><div class="rbc-header"><span role="columnheader" aria-sort="none">Thu</span></div><div class="rbc-header"><span role="columnheader" aria-sort="none">Fri</span></div><div class="rbc-header"><span role="columnheader" aria-sort="none">Sat</span></div></div><div class="rbc-month-row" role="rowgroup"><div class="rbc-row-bg"><div class="rbc-day-bg rbc-off-range-bg"></div><div class="rbc-day-bg rbc-off-range-bg"></div><div class="rbc-day-bg rbc-off-range-bg"></div><div class="rbc-day-bg"></div><div class="rbc-day-bg"></div><div class="rbc-day-bg"></div><div class="rbc-day-bg"></div></div><div class="rbc-row-content" role="row"><div class="rbc-row "><div class="rbc-date-cell rbc-off-range" role="cell"><button type="button" class="rbc-button-link" role="cell">29</button></div><div class="rbc-date-cell rbc-off-range" role="cell"><button type="button" class="rbc-button-link" role="cell">30</button></div><div class="rbc-date-cell rbc-off-range" role="cell"><button type="button" class="rbc-button-link" role="cell">31</button></div><div class="rbc-date-cell" role="cell"><button type="button" class="rbc-button-link" role="cell">01</button></div><div class="rbc-date-cell" role="cell"><button type="button" class="rbc-button-link" role="cell">02</button></div><div class="rbc-date-cell" role="cell"><button type="button" class="rbc-button-link" role="cell">03</button></div><div class="rbc-date-cell" role="cell"><button type="button" class="rbc-button-link" role="cell">04</button></div></div></div></div><div class="rbc-month-row" role="rowgroup"><div class="rbc-row-bg"><div class="rbc-day-bg"></div><div class="rbc-day-bg"></div><div class="rbc-day-bg"></div><div class="rbc-day-bg"></div><div class="rbc-day-bg"></div><div class="rbc-day-bg"></div><div class="rbc-day-bg"></div></div><div class="rbc-row-content" role="row"><div class="rbc-row "><div class="rbc-date-cell" role="cell"><button type="button" class="rbc-button-link" role="cell">05</button></div><div class="rbc-date-cell" role="cell"><button type="button" class="rbc-button-link" role="cell">06</button></div><div class="rbc-date-cell" role="cell"><button type="button" class="rbc-button-link" role="cell">07</button></div><div class="rbc-date-cell" role="cell"><button type="button" class="rbc-button-link" role="cell">08</button></div><div class="rbc-date-cell" role="cell"><button type="button" class="rbc-button-link" role="cell">09</button></div><div class="rbc-date-cell" role="cell"><button type="button" class="rbc-button-link" role="cell">10</button></div><div class="rbc-date-cell" role="cell"><button type="button" class="rbc-button-link" role="cell">11</button></div></div></div></div><div class="rbc-month-row" role="rowgroup"><div class="rbc-row-bg"><div class="rbc-day-bg"></div><div class="rbc-day-bg"></div><div class="rbc-day-bg"></div><div class="rbc-day-bg"></div><div class="rbc-day-bg"></div><div class="rbc-day-bg"></div><div class="rbc-day-bg"></div></div><div class="rbc-row-content" role="row"><div class="rbc-row "><div class="rbc-date-cell" role="cell"><button type="button" class="rbc-button-link" role="cell">12</button></div><div class="rbc-date-cell" role="cell"><button type="button" class="rbc-button-link" role="cell">13</button></div><div class="rbc-date-cell" role="cell"><button type="button" class="rbc-button-link" role="cell">14</button></div><div class="rbc-date-cell" role="cell"><button type="button" class="rbc-button-link" role="cell">15</button></div><div class="rbc-date-cell" role="cell"><button type="button" class="rbc-button-link" role="cell">16</button></div><div class="rbc-date-cell" role="cell"><button type="button" class="rbc-button-link" role="cell">17</button></div><div class="rbc-date-cell" role="cell"><button type="button" class="rbc-button-link" role="cell">18</button></div></div></div></div><div class="rbc-month-row" role="rowgroup"><div class="rbc-row-bg"><div class="rbc-day-bg"></div><div class="rbc-day-bg"></div><div class="rbc-day-bg"></div><div class="rbc-day-bg"></div><div class="rbc-day-bg"></div><div class="rbc-day-bg rbc-today"></div><div class="rbc-day-bg"></div></div><div class="rbc-row-content" role="row"><div class="rbc-row "><div class="rbc-date-cell" role="cell"><button type="button" class="rbc-button-link" role="cell">19</button></div><div class="rbc-date-cell" role="cell"><button type="button" class="rbc-button-link" role="cell">20</button></div><div class="rbc-date-cell" role="cell"><button type="button" class="rbc-button-link" role="cell">21</button></div><div class="rbc-date-cell" role="cell"><button type="button" class="rbc-button-link" role="cell">22</button></div><div class="rbc-date-cell" role="cell"><button type="button" class="rbc-button-link" role="cell">23</button></div><div class="rbc-date-cell rbc-now rbc-current" role="cell"><button type="button" class="rbc-button-link" role="cell">24</button></div><div class="rbc-date-cell" role="cell"><button type="button" class="rbc-button-link" role="cell">25</button></div></div></div></div><div class="rbc-month-row" role="rowgroup"><div class="rbc-row-bg"><div class="rbc-day-bg"></div><div class="rbc-day-bg"></div><div class="rbc-day-bg"></div><div class="rbc-day-bg"></div><div class="rbc-day-bg"></div><div class="rbc-day-bg"></div><div class="rbc-day-bg rbc-off-range-bg"></div></div><div class="rbc-row-content" role="row"><div class="rbc-row "><div class="rbc-date-cell" role="cell"><button type="button" class="rbc-button-link" role="cell">26</button></div><div class="rbc-date-cell" role="cell"><button type="button" class="rbc-button-link" role="cell">27</button></div><div class="rbc-date-cell" role="cell"><button type="button" class="rbc-button-link" role="cell">28</button></div><div class="rbc-date-cell" role="cell"><button type="button" class="rbc-button-link" role="cell">29</button></div><div class="rbc-date-cell" role="cell"><button type="button" class="rbc-button-link" role="cell">30</button></div><div class="rbc-date-cell" role="cell"><button type="button" class="rbc-button-link" role="cell">31</button></div><div class="rbc-date-cell rbc-off-range" role="cell"><button type="button" class="rbc-button-link" role="cell">01</button></div></div></div></div></div></div></div><div class="col-sm-4"><div class="input-group mb-3 room-booking-form"><div class="input-group-prepend"><span class="input-group-text" id="basic-addon1"><span class="fa fa-id-card"></span></span></div><input type="text" class="form-control room-firstname" placeholder="Firstname" aria-label="Firstname" name="firstname" aria-describedby="basic-addon1" value=""></div><div class="input-group mb-3"><div class="input-group-prepend"><span class="input-group-text" id="basic-addon1"><span class="fa fa-id-card"></span></span></div><input type="text" class="form-control room-lastname" placeholder="Lastname" aria-label="Lastname" name="lastname" aria-describedby="basic-addon1" value=""></div><div class="input-group mb-3"><div class="input-group-prepend"><span class="input-group-text" id="basic-addon1"><span class="fa fa-envelope"></span></span></div><input type="text" class="form-control room-email" placeholder="Email" aria-label="Email" aria-describedby="basic-addon1" name="email" value=""></div><div class="input-group mb-3"><div class="input-group-prepend"><span class="input-group-text" id="basic-addon1"><span class="fa fa-phone"></span></span></div><input type="text" class="form-control room-phone" placeholder="Phone" aria-label="Phone" aria-describedby="basic-addon1" name="phone" value=""></div><button type="button" class="btn btn-outline-danger float-right book-room">Cancel</button><button type="button" class="btn btn-outline-primary float-right book-room" style="margin-right: 10px;">Book</button></div><div class="col-sm-1"></div></div></div></div><div><div><div class="row hotel-room-info"><div class="col-sm-1"></div><div class="col-sm-3"><img class="img-responsive hotel-img" src="https://www.mwtestconsultancy.co.uk/img/room1.jpg" alt="Preview image of room39"></div><div class="col-sm-7"><h3>Single</h3><p>Please enter a description for this room</p><ul><li>WiFi</li><li>TV</li><li>Safe</li></ul><button type="button" class="btn btn-outline-primary float-right openBooking">Book this room</button></div><div class="col-sm-1"></div></div></div></div><div><div><div class="row hotel-room-info"><div class="col-sm-1"></div><div class="col-sm-3"><img class="img-responsive hotel-img" src="https://www.mwtestconsultancy.co.uk/img/room1.jpg" alt="Preview image of room0"></div><div class="col-sm-7"><h3>Double</h3><p>Please enter a description for this room</p><ul><li>WiFi</li><li>TV</li><li>Radio</li></ul><button type="button" class="btn btn-outline-primary float-right openBooking">Book this room</button></div><div class="col-sm-1"></div></div></div></div><div><div><div class="row hotel-room-info"><div class="col-sm-1"></div><div class="col-sm-3"><img class="img-responsive hotel-img" src="https://www.mwtestconsultancy.co.uk/img/room1.jpg" alt="Preview image of room85"></div><div class="col-sm-7"><span class="fa fa-wheelchair wheelchair"></span><h3>Twin</h3><p>Please enter a description for this room</p><ul><li>WiFi</li><li>TV</li><li>Refreshments</li><li>Safe</li></ul><button type="button" class="btn btn-outline-primary float-right openBooking">Book this room</button></div><div class="col-sm-1"></div></div></div></div><div><div><div class="row hotel-room-info"><div class="col-sm-1"></div><div class="col-sm-3"><img class="img-responsive hotel-img" src="https://www.mwtestconsultancy.co.uk/img/room1.jpg" alt="Preview image of room43"></div><div class="col-sm-7"><h3>Family</h3><p>Please enter a description for this room</p><ul><li>WiFi</li><li>TV</li><li>Refreshments</li><li>Safe</li><li>Views</li></ul><button type="button" class="btn btn-outline-primary float-right openBooking">Book this room</button></div><div class="col-sm-1"></div></div></div></div><div><div><div class="row hotel-room-info"><div class="col-sm-1"></div><div class="col-sm-3"><img class="img-responsive hotel-img" src="https://www.mwtestconsultancy.co.uk/img/room1.jpg" alt="Preview image of room17"></div><div class="col-sm-7"><h3>Suite</h3><p>Please enter a description for this room</p><ul><li>WiFi</li><li>TV</li><li>Radio</li><li>Refreshments</li><li>Safe</li><li>Views</li></ul><button type="button" class="btn btn-outline-primary float-right openBooking">Book this room</button></div><div class="col-sm-1"></div></div></div></div><div class="row contact"><div class="col-sm-1"></div><div class="col-sm-5"><form><div class="input-group mb-3"><div class="input-group-prepend"><span class="input-group-text" id="basic-addon1"><span class="fa fa-id-card"></span></span></div><input type="text" data-testid="ContactName" class="form-control" placeholder="Name" aria-label="Name" id="name" aria-describedby="basic-addon1"></div><div class="input-group mb-3"><div class="input-group-prepend"><span class="input-group-text" id="basic-addon1"><span class="fa fa-envelope"></span></span></div><input type="text" data-testid="ContactEmail" class="form-control" placeholder="Email" aria-label="Email" id="email" aria-describedby="basic-addon1"></div><div class="input-group mb-3"><div class="input-group-prepend"><span class="input-group-text" id="basic-addon1"><span class="fa fa-phone"></span></span></div><input type="text" data-testid="ContactPhone" class="form-control" placeholder="Phone" aria-label="Phone" id="phone" aria-describedby="basic-addon1"></div><div class="input-group mb-3"><div class="input-group-prepend"><span class="input-group-text" id="basic-addon1"><span class="fa fa-envelope"></span></span></div><input type="text" data-testid="ContactSubject" class="form-control" placeholder="Subject" aria-label="Subject" id="subject" aria-describedby="basic-addon1"></div><div class="input-group"><div class="input-group-prepend"><span class="input-group-text">Message</span></div><textarea data-testid="ContactDescription" class="form-control" aria-label="Description" id="description" rows="5"></textarea></div><br><button type="button" class="btn btn-outline-primary float-right" id="submitContact">Submit</button></form></div><div class="col-sm-5"><p><span class="fa fa-home"></span> Shady Meadows B&amp;B</p><p><span></span> The Old Farmhouse, Shady Street, Newfordburyshire, NE1 410S</p><p><span class="fa fa-phone"></span> 012345678901</p><p><span class="fa fa-envelope"></span> fake@fakeemail.com</p></div><div class="col-sm-1"></div></div><div class="row"><div class="col-sm-12"><div class="map"><div dir="ltr" style="width: 1280px; height: 600px; position: relative; display: inline-block; overflow: hidden; background: rgb(221, 221, 221); touch-action: none;"><div class="pigeon-tiles-box" style="width: 1280px; height: 600px; position: absolute; top: calc(50% - 300px); left: calc(50% - 640px); overflow: hidden; will-change: transform; transform: scale(1, 1); transform-origin: left top;"><div class="pigeon-tiles" style="position: absolute; width: 1536px; height: 768px; will-change: transform; transform: translate(-31.3761px, -152.013px);"><img src="https://cartodb-basemaps-a.global.ssl.fastly.net/light_all/17/65997/42915.png" srcset="" width="256" height="256" loading="lazy" alt="" style="position: absolute; left: 0px; top: 0px; will-change: transform; transform-origin: left top; opacity: 1;"><img src="https://cartodb-basemaps-a.global.ssl.fastly.net/light_all/17/65997/42916.png" srcset="" width="256" height="256" loading="lazy" alt="" style="position: absolute; left: 0px; top: 256px; will-change: transform; transform-origin: left top; opacity: 1;"><img src="https://cartodb-basemaps-a.global.ssl.fastly.net/light_all/17/65997/42917.png" srcset="" width="256" height="256" loading="lazy" alt="" style="position: absolute; left: 0px; top: 512px; will-change: transform; transform-origin: left top; opacity: 1;"><img src="https://cartodb-basemaps-a.global.ssl.fastly.net/light_all/17/65998/42915.png" srcset="" width="256" height="256" loading="lazy" alt="" style="position: absolute; left: 256px; top: 0px; will-change: transform; transform-origin: left top; opacity: 1;"><img src="https://cartodb-basemaps-a.global.ssl.fastly.net/light_all/17/65998/42916.png" srcset="" width="256" height="256" loading="lazy" alt="" style="position: absolute; left: 256px; top: 256px; will-change: transform; transform-origin: left top; opacity: 1;"><img src="https://cartodb-basemaps-a.global.ssl.fastly.net/light_all/17/65998/42917.png" srcset="" width="256" height="256" loading="lazy" alt="" style="position: absolute; left: 256px; top: 512px; will-change: transform; transform-origin: left top; opacity: 1;"><img src="https://cartodb-basemaps-a.global.ssl.fastly.net/light_all/17/65999/42915.png" srcset="" width="256" height="256" loading="lazy" alt="" style="position: absolute; left: 512px; top: 0px; will-change: transform; transform-origin: left top; opacity: 1;"><img src="https://cartodb-basemaps-a.global.ssl.fastly.net/light_all/17/65999/42916.png" srcset="" width="256" height="256" loading="lazy" alt="" style="position: absolute; left: 512px; top: 256px; will-change: transform; transform-origin: left top; opacity: 1;"><img src="https://cartodb-basemaps-a.global.ssl.fastly.net/light_all/17/65999/42917.png" srcset="" width="256" height="256" loading="lazy" alt="" style="position: absolute; left: 512px; top: 512px; will-change: transform; transform-origin: left top; opacity: 1;"><img src="https://cartodb-basemaps-a.global.ssl.fastly.net/light_all/17/66000/42915.png" srcset="" width="256" height="256" loading="lazy" alt="" style="position: absolute; left: 768px; top: 0px; will-change: transform; transform-origin: left top; opacity: 1;"><img src="https://cartodb-basemaps-a.global.ssl.fastly.net/light_all/17/66000/42916.png" srcset="" width="256" height="256" loading="lazy" alt="" style="position: absolute; left: 768px; top: 256px; will-change: transform; transform-origin: left top; opacity: 1;"><img src="https://cartodb-basemaps-a.global.ssl.fastly.net/light_all/17/66000/42917.png" srcset="" width="256" height="256" loading="lazy" alt="" style="position: absolute; left: 768px; top: 512px; will-change: transform; transform-origin: left top; opacity: 1;"><img src="https://cartodb-basemaps-a.global.ssl.fastly.net/light_all/17/66001/42915.png" srcset="" width="256" height="256" loading="lazy" alt="" style="position: absolute; left: 1024px; top: 0px; will-change: transform; transform-origin: left top; opacity: 1;"><img src="https://cartodb-basemaps-a.global.ssl.fastly.net/light_all/17/66001/42916.png" srcset="" width="256" height="256" loading="lazy" alt="" style="position: absolute; left: 1024px; top: 256px; will-change: transform; transform-origin: left top; opacity: 1;"><img src="https://cartodb-basemaps-a.global.ssl.fastly.net/light_all/17/66001/42917.png" srcset="" width="256" height="256" loading="lazy" alt="" style="position: absolute; left: 1024px; top: 512px; will-change: transform; transform-origin: left top; opacity: 1;"><img src="https://cartodb-basemaps-a.global.ssl.fastly.net/light_all/17/66002/42915.png" srcset="" width="256" height="256" loading="lazy" alt="" style="position: absolute; left: 1280px; top: 0px; will-change: transform; transform-origin: left top; opacity: 1;"><img src="https://cartodb-basemaps-a.global.ssl.fastly.net/light_all/17/66002/42916.png" srcset="" width="256" height="256" loading="lazy" alt="" style="position: absolute; left: 1280px; top: 256px; will-change: transform; transform-origin: left top; opacity: 1;"><img src="https://cartodb-basemaps-a.global.ssl.fastly.net/light_all/17/66002/42917.png" srcset="" width="256" height="256" loading="lazy" alt="" style="position: absolute; left: 1280px; top: 512px; will-change: transform; transform-origin: left top; opacity: 1;"></div></div><div class="pigeon-overlays" style="position: absolute; width: 1280px; height: 600px; top: calc(50% - 300px); left: calc(50% - 640px);"><div class="pigeon-click-block" style="position: absolute; transform: translate(625px, 269px); cursor: default;"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAiCAYAAACjv9J3AAACQ0lEQVR4AWLABkbBv3//BIHYEYgLgbgRiAOB2IAWFrEAaKunwwiDIIDjTaSElJIOUsKVkCpi27ZtnG0jtu1MZh8mnD3fw/9tZ3+fPywPU2Ig6QqbxBTpAAXmoc0fX19h7+oObAcXYNg5hfD5DZzcPRJMKbGcZMEe2khAs749qNH42Jr1AVgOHsD14/NPXJEUKM5sxrcL1Rpv3Om3TxKCCawksN8WgWq1J+GWA/s8LAFzaHGfNZwUSC19wwdYVjR0EsNLdAzVKnfKhc+uCe6UgdkYPL68QqPWC1VKV8q1GwNRz5ZeD/AcXUTdaMi1CyvbF6A+uAXRdOBIPL3S9aHTK4JzOXQMgyn3FlSsO9gmfAcCYms1BtmZ9dA+oWUcasWgxxSAijXHv5r0PgLY8OzZuWFbmNA1DgVR+aqNbdCxLQWpqg3Hv7k6pZPQKw69wsSi5NF1BzdLKHDoGgZDlgCUrVj+hU9irMvLznUbvIRaObQMg9XADjssmgseS9Euc4idmXCECR3j0FwMgsd4xMtmtspVK4x79n5h67tX0GkKSmdc+6eE5nFoFnaAQbPaCaVLJmkVeAZNWo8o6rqaNav42BCaLfsqddLZluBQqmlCewROkhH1bGedYShZMCRdp9ZFINBPPRqswCBZmMDHlxcCK+VaFLhoThd3HRrHT7AnLpCFHeH4QHUKIA+HoHBWK61dZU8d5OEgFM5o/pVWkIXtv+E2pS39IAfPIFwwrc4syMEq/3bmQQ7+HO0txGyqNhIqaUYBAA36UJJokkxWAAAAAElFTkSuQmCC" width="29" height="34" alt=""></div></div><div class="pigeon-attribution" style="position: absolute; bottom: 0px; right: 0px; font-size: 11px; padding: 2px 5px; background: rgba(255, 255, 255, 0.7); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; color: rgb(51, 51, 51);"><span><a href="https://pigeon-maps.js.org/" target="_blank" rel="noreferrer noopener" style="color: rgb(0, 120, 168); text-decoration: none;">Pigeon</a> | </span><span> © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer noopener" style="color: rgb(0, 120, 168); text-decoration: none;">OpenStreetMap</a> contributors</span></div></div></div></div></div></div></div><footer id="footer" class="footer"><div class="container"><p class="text-muted">restful-booker-platform v1.7.0 Created by <a href="http://www.mwtestconsultancy.co.uk">Mark Winteringham</a> - © 2019-24 <a href="/#/cookie">Cookie-Policy</a> - <a href="/#/privacy">Privacy-Policy</a> - <a href="/#/admin">Admin panel</a> <span style="float: right;"></span></p></div></footer></div></body></html>

@@ -1,3 +1,8 @@
+/**
+ * Automation Script Developed By: Linto Thamby
+ * Date: 26-01-2025
+ * Automation Test Cases: Verify the  drag-select valid dates, fill booking form, and verify success message*/
+
 import { test, expect } from '@playwright/test';
 
 test('drag-select valid dates, fill booking form, and verify success message', async ({ page }) => {

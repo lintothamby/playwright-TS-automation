@@ -1,3 +1,9 @@
+/**
+ * Automation Script Developed By: Linto Thamby
+ * Date: 22-01-2025
+ * Automation Test case: Verify the calendar navigation functionality, including the visibility and behavior of navigation buttons and the default calendar display.
+ */
+
 import { test, expect } from '@playwright/test';
 import { CalendarLocators } from '../locators/CalendarLocators';
 
